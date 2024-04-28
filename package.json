@@ -1,0 +1,21 @@
+{
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "ejs": "^3.1.9",
+    "express": "^4.18.3",
+    "express-ejs-layouts": "^2.5.1",
+    "express-layouts": "^1.0.0",
+    "express-session": "^1.18.0",
+    "module": "^0.0.1",
+    "mongodb": "^6.5.0",
+    "mongoose": "^8.2.3",
+    "stripe": "^15.2.0"
+  },
+  "devDependencies": {
+    "dotenv": "^16.4.5",
+    "nodemon": "^3.1.0"
+  }
+}
