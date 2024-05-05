@@ -309,7 +309,7 @@ app.get('/success2', async (req, res) => {
       });
 
       await newTicket.save();
-      res.send('Pembayaran berhasil. Tiket telah dikonfirmasi.');
+      res.redirect('/success');
     } else {
       res.send('Pembayaran tidak berhasil. Tidak ada tiket yang disimpan.');
     }
@@ -511,7 +511,7 @@ try {
 app.get('/profil', async (req, res) => {
   const user = req.session.user;
   if (!user) {
-      return res.redirect('/login'); // Redirect to login if the user is not logged in
+      return res.redirect('/login');
   }
 
   const sortOption = req.query.sort || 'date-desc'; // Default sorting
@@ -572,6 +572,61 @@ try {
     res.status(500).json({ message: 'Internal Server Error' });
 }
 });
+
+app.get("/profiledit",(req,res) =>{
+  const user = req.session.user;
+  if (!user) {
+    return res.redirect('/login'); 
+}
+  res.render("profiledit.ejs",{title:`Edit Profile`,layout:false, user: user,moment})
+ });
+
+ app.post('/update-profile', async (req, res) => {
+  if (!req.session.user) {
+      return res.redirect('/login');  
+  }
+
+  try {
+      const user = await User.findById(req.session.user._id);
+      const { username, profilePicture, phone, newPassword } = req.body;
+      let isChanged = false;
+      let updateData = {};
+
+      if (username !== user.username) {
+          updateData.username = username;
+          isChanged = true;
+      }
+      if (profilePicture !== user.foto) {
+          updateData.foto = profilePicture;
+          isChanged = true;
+      }
+      if (phone !== user.nomor) {
+          updateData.nomor = phone;
+          isChanged = true;
+      }
+      if (newPassword && await bcrypt.compare(newPassword, user.password) === false) {
+          updateData.password = await bcrypt.hash(newPassword, 10); 
+          isChanged = true;
+      }
+
+  
+      if (isChanged) {
+   
+          await User.findByIdAndUpdate(user._id, updateData);
+          req.session.user = {...req.session.user, ...updateData};
+          res.send('<script>alert("Profile updated successfully!"); window.location.href = "/profiledit";</script>');
+      } else {
+          res.send('<script>alert("No changes detected."); window.location.href = "/profiledit";</script>');
+      }
+      
+  } catch (error) {
+      console.error('Error updating user profile:', error);
+      res.status(500).send('Internal Server Error');
+  }
+});
+
+
+
 
 
 app.listen(port,() => {
