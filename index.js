@@ -9,6 +9,7 @@ const User = require('./model/config');
 const Product =require ('./model/produk');
 const Message=require('./model/message');
 const Ticket=require('./model/tiket');
+const Article=require('./model/artikel');
 const app = express();
 const port = 3000;
 const bodyParser = require('body-parser');
@@ -52,9 +53,15 @@ app.use(expressLayouts);
 app.use(express.json());
 
 app.use(express.static("public"));
-app.get('/', (req, res) => {
+app.get('/', async (req, res) => {
  const user = req.session.user;
- res.render('index.ejs', { layout: 'mainlayout', title: 'Dufan', user: user });
+ try {
+  const articles = await Article.find().lean();
+  res.render('index.ejs', { layout: 'mainlayout', title: 'Dufan', user: user,articles,moment});
+} catch (error) {
+  console.error("Failed to retrieve articles:", error);
+  res.status(500).send("Error fetching articles");
+}
 });
 
 
@@ -668,6 +675,113 @@ app.post('/admin/ticket-status', async (req, res) => {
       res.status(500).json({ success: false, message: 'Internal Server Error' });
   }
 });
+
+// async function createArticle() {
+//   const newArticle = new Article({
+//       title: "NIAGARA",
+//       imageUrl: "https://ctzonedehasenbkl.com/wp-content/uploads/2019/11/IMG-20191109-WA0018.jpg",
+//       description: "Wahana Basah-Basah"
+//   });
+
+//   try {
+//       await newArticle.save();
+//       console.log('Artikel baru tanpa komentar berhasil disimpan.');
+//   } catch (error) {
+//       console.error('Error saat menyimpan artikel tanpa komentar:', error);
+//   }
+// }
+
+app.get('/api/articles/:articleId', async (req, res) => {
+  try {
+      const articleId = req.params.articleId;
+      const article = await Article.findById(articleId).populate('comments.user').lean();
+      if (!article) {
+          return res.status(404).send('Article not found');
+      }
+      res.json(article);
+  } catch (error) {
+      console.error('Failed to retrieve the article:', error);
+      res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+
+app.get("/komen",(req,res) =>{
+  const user = req.session.user;
+  res.render("komen.ejs",{title:`Komentar`,layout:false, user: user})
+ });
+
+ const findArticleById = async (id) => {
+  try {
+      return await Article.findById(id).populate('comments.user');
+  } catch (error) {
+      console.error('Terjadi kesalahan saat mencari artikel berdasarkan ID:', error);
+      throw error;
+  }
+};
+
+
+ app.get('/comments/:articleId', async (req, res) => {
+  try {
+      const articleId = req.params.articleId;
+      const article = await findArticleById(articleId); 
+
+      if (!article) {
+          return res.status(404).render('error', { message: 'Article not found' });
+      }
+
+      res.render('komen.ejs', { article: article,layout:false,moment });
+  } catch (error) {
+      console.error(error);
+      res.status(500).render('error', { message: 'Internal server error' });
+  }
+});
+app.post('/submit-comment/:articleId', async (req, res) => {
+  if (!req.session.user) {
+    return res.redirect('/login');
+  }
+
+  const { comment } = req.body;
+  const articleId = req.params.articleId;
+  try {
+    const article = await findArticleById(articleId);
+    if (!article) {
+      return res.status(404).send('Artikel tidak ditemukan');
+    }
+
+    // Tambahkan komentar
+    article.comments.push({
+      user: req.session.user._id,
+      comment: comment,
+      rating: 5 // Misalnya
+    });
+
+    await article.save();
+    res.redirect('/comments/' + articleId);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Kesalahan server internal');
+  }
+});
+
+app.get('/api/comments/:articleId', async (req, res) => {
+  try {
+      const articleId = req.params.articleId;
+      const article = await Article.findById(articleId).populate('comments.user');
+      if (!article) {
+          return res.status(404).send('Artikel tidak ditemukan');
+      }
+
+      res.json(article.comments);
+  } catch (error) {
+      console.error(error);
+      res.status(500).send('Kesalahan server internal');
+  }
+});
+
+
+
+
+
 
 app.listen(port,() => {
   console.log(`Webserver listening on port ${port}`)
