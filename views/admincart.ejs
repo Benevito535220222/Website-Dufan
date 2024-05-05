@@ -1,0 +1,198 @@
+<%- include('layouts/headeradmin.ejs') %>
+<style>
+    #editProductModal {
+    display: none; /* Modal tidak akan ditampilkan sampai diaktifkan via JS */
+}
+    .modal-dialog {
+        transform: translate(-50%, -50%);
+        top: 50%;
+        position: absolute;
+        left: 50%;
+        margin: 0;
+    }
+
+    .modal-content {
+        border: 2px solid black; /* Menambahkan border hitam */
+        background-color: black;
+        color: white;
+    }
+
+    .modal.fade .modal-dialog {
+        transition: transform 0.3s ease-out;
+    }
+    .modal-header {
+    display: flex;
+    justify-content: space-between; /* Memastikan judul dan tombol close berada di kedua ujung */
+    align-items: center;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: center; /* Menengahkan tombol di footer */
+    align-items: center;
+}
+
+.close {
+    margin-bottom: 34px;
+    margin-left: auto; /* Memastikan tombol close tetap di kanan atas */
+    background-color: red;
+}
+.modal-title {
+    flex: 1; /* Memberi fleksibilitas untuk mengisi ruang yang tersedia */
+    text-align: center; /* Menengahkan teks */
+    margin-right: 0px; /* Memberi ruang untuk tombol close agar tidak tumpang tindih dengan teks */
+}
+</style>
+
+
+<body>
+    <div class="dashboard">
+        <div class="sidebar">
+            <h2>Dashboard</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/admin">Analytics</a></li>
+                <li><a href="/admincart">Cart</a></li>
+                <li><a href="/adminmessage">Messages</a></li>
+                <li><a href="/adminuser">Users</a></li>
+                <li><a href="/logout" class="logout-button">Logout</a></li> <!-- Logout Button -->
+            </ul>
+        </div>
+        <div class="main-content">
+            <header>
+                <h1>Products Cart</h1>
+            </header>
+            <div class="content">
+                <!-- Form untuk menambah produk baru -->
+                <form action="/sales" method="POST">
+                    <input type="text" name="name" placeholder="Product Name" required>
+                    <input type="text" name="image" placeholder="Image URL" required>
+                    <input type="text" name="price" placeholder="Price" required>
+                    <input type="text" name="stripeId" placeholder="Stripe ID" required>
+                    <button type="submit">Add Product</button>
+                </form>
+
+                <!-- Tabel untuk menampilkan semua produk -->
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Image</th>
+                            <th>Price</th>
+                            <th>Stripe ID</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% products.forEach(product => { %>
+                            <tr>
+                                <td><%= product.name %></td>
+                                <td><img src="<%= product.image %>" alt="<%= product.name %>" style="width: 100px;"></td>
+                                <td>Rp.<%= product.price %></td>
+                                <td><%= product.stripeId %></td>
+                                <td>
+                                    <button class="edit-btn" onclick="openEditModal('<%= product._id %>', '<%= product.name %>', '<%= product.image %>', '<%= product.price %>', '<%= product.stripeId %>')">Edit</button>
+                                    <button class="delete-btn" onclick="deleteProduct('<%= product._id %>')">Delete</button>
+                                </td>
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="editProductModal" tabindex="-1" role="dialog" aria-labelledby="editProductModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editProductModalLabel">Edit Product</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="editForm">
+                    <div class="modal-body">
+                        <input type="hidden" id="editProductId">
+                        <input type="text" id="editName" name="name" placeholder="Product Name" required>
+                        <input type="text" id="editImage" name="image" placeholder="Image URL" required>
+                        <input type="text" id="editPrice" name="price" placeholder="Price" required>
+                        <input type="text" id="editStripeId" name="stripeId" placeholder="Stripe ID" required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.min.js"></script>
+    <script>
+        function openEditModal(id, name, image, price, stripeId) {
+            console.log('Opening modal for:', id); // Debug: Log opening modal
+            $('#editProductId').val(id);
+            $('#editName').val(name);
+            $('#editImage').val(image);
+            $('#editPrice').val(price);
+            $('#editStripeId').val(stripeId);
+            $('#editProductModal').modal('show');
+        }
+    
+        $(document).ready(function() {
+    $('#editForm').on('submit', function(e) {
+        e.preventDefault();
+        const productId = $('#editProductId').val();
+        const data = {
+            name: $('#editName').val(),
+            image: $('#editImage').val(),
+            price: $('#editPrice').val(),
+            stripeId: $('#editStripeId').val(),
+        };
+
+        console.log('Submitting edit:', data); 
+        
+        $.ajax({
+            url: '/sales/edit/' + productId,
+            type: 'POST',
+            data: data,
+            success: function(result) {
+                console.log('Edit successful:', result); 
+                $('#editProductModal').modal('hide');
+                alert('Product updated successfully'); 
+                window.location.reload(); 
+            },
+            error: function(err) {
+                console.error('Error updating product:', err); 
+                alert('Error updating product'); 
+            }
+        });
+    });
+});
+
+    
+        function deleteProduct(productId) {
+            if (confirm('Are you sure you want to delete this product?')) {
+                fetch('/sales/' + productId, {
+                    method: 'DELETE'
+                }).then(res => res.json())
+                .then(({ message }) => {
+                    console.log('Delete successful:', message); 
+                    alert(message);
+                    window.location.reload();
+                })
+                .catch(err => {
+                    console.error('Error deleting product:', err); 
+                    alert('Error deleting product');
+                });
+            }
+        }
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,85 @@
+<%- include('layouts/headeradmin.ejs') %>
+<body>
+    <div class="dashboard">
+        <div class="sidebar">
+            <h2>Dashboard</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/admin">Analytics</a></li>
+                <li><a href="/admincart">Cart</a></li>
+                <li><a href="/adminmessage">Messages</a></li>
+                <li><a href="/adminuser">Users</a></li>
+                <li><a href="/logout" class="logout-button">Logout</a></li> <!-- Logout Button -->
+            </ul>
+        </div>
+        <div class="main-content">
+            <header>
+                <h1>Users Management</h1>
+            </header>
+            <div class="content">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Email</th>
+                            <th>Tanggal Buat</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% users.forEach(user => { %>
+                            <tr>
+                                <td><%= user.email %></td>
+                                <td><%= moment(user.createdAt).format('MMM DD, YYYY HH:mm') %></td>
+                                <td>
+                                    <button onclick="deleteUser('<%= user._id %>')">Delete</button>
+                                </td>
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script>
+        function deleteUser(userId) {
+    fetch('/user/' + userId, {
+        method: 'DELETE'
+    }).then(response => response.text())
+    .then(message => {
+        alert(message);
+        if (message !== 'Cannot delete an admin user') {
+            window.location.reload(); // Hanya muat ulang jika penghapusan berhasil
+        }
+    })
+    .catch(err => {
+        console.error('Error when deleting user:', err);
+        alert('Error deleting user');
+    });
+}
+
+app.get('/admincart', async (req, res) => {
+    try {
+        const products = await Product.find({}); // Mengambil semua produk
+        res.render('admincart.ejs', { products }); // Mengirim produk ke template EJS
+    } catch (error) {
+        console.error('Failed to fetch products:', error);
+        res.status(500).send('Error fetching products');
+    }
+});
+
+app.post('/sales', async (req, res) => {
+    try {
+        const { name, image, price, stripeId } = req.body;
+        const newProduct = new Product({ name, image, price, stripeId });
+        await newProduct.save();
+        res.redirect('/sales'); // Redirect kembali ke halaman sales setelah penambahan
+    } catch (error) {
+        console.error('Failed to add product:', error);
+        res.status(500).send('Error adding product');
+    }
+});
+
+
+    </script>
+</body>
+</html>

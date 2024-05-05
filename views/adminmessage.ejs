@@ -1,0 +1,173 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="/css/styleadmin.css">
+    <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+</head>
+<style>
+    .container {
+        max-width: 600px;
+        max-height: 440px;
+        margin: 50px auto;
+        padding: 20px;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+        text-align: center;
+        color: #333;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+        color: #666;
+    }
+
+    input, textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    button {
+        width: 100%;
+        padding: 10px;
+        background-color: #0056b3;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    button:hover {
+        background-color: #004494;
+    }
+    #kontainer .table {
+    width: 100%;
+    table-layout: fixed;
+}
+
+    #kontainer thead th {
+        position: sticky;
+        top: 0;
+        background: white;
+        z-index: 10;
+    }
+
+    #kontainer tbody {
+        display: block;
+        overflow-y: auto;
+        max-height: 300px; /* Sesuaikan tinggi maksimal sesuai kebutuhan */
+    }
+
+    #kontainer thead, #kontainer tbody tr {
+        display: table;
+        width: 100%;
+        table-layout: fixed; /* Opsi ini diperlukan untuk kolom tetap sejajar */
+    }
+
+    #kontainer .table th, #kontainer .table td {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+    }
+    #kontainer{
+        position: absolute;
+        top: 50vh;
+        left: 77vh;
+        
+    }
+    
+</style>
+
+<body>
+    <div class="dashboard">
+        <div class="sidebar">
+            <h2>Dashboard</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/admin">Analytics</a></li>
+                <li><a href="/admincart">Cart</a></li>
+                <li><a href="#">Messages</a></li>
+                <li><a href="/adminuser">Users</a></li>
+                <li><a href="/logout" class="logout-button">Logout</a></li> <!-- Logout Button -->
+            </ul>
+        </div>
+        <div class="container">
+            <h1>Kirim Pesan ke Semua Pengguna</h1>
+            <form action="/send-message" method="POST">
+                <div class="form-group">
+                    <label for="subject">Subjek:</label>
+                    <input type="text" class="form-control" id="subject" name="subject" required>
+                </div>
+                <div class="form-group">
+                    <label for="body">Isi Pesan:</label>
+                    <textarea class="form-control" id="body" name="body" rows="5" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Kirim Pesan</button>
+            </form>
+        </div>
+        
+    </div>
+    <div class="container mt-4" id="kontainer" >
+        <h2>Pesan Terkirim</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Subjek</th>
+                    <th>Pesan</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% messages.forEach(message => { %>
+                    <tr>
+                        <td><%= message.subject %></td>
+                        <td><%= message.body %></td>
+                        <td>
+                            <button onclick="deleteMessage('<%= message._id %>')" class="btn btn-danger">Hapus</button>
+                        </td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </div>
+    
+</body>
+<script>
+    function deleteMessage(messageId) {
+        const confirmation = confirm('Apakah Anda yakin ingin menghapus pesan ini?');
+        if (confirmation) {
+            fetch('/delete-message/' + messageId, {
+                method: 'DELETE'
+            }).then(response => response.json())
+              .then(data => {
+                  if (data.status === 'success') {
+                      alert(data.message);
+                      window.location.reload(); // Muat ulang halaman untuk melihat perubahan
+                  } else {
+                      alert(data.message);
+                  }
+              })
+              .catch(error => {
+                  console.error('Error:', error);
+                  alert('Gagal menghapus pesan.');
+              });
+        }
+    }
+    </script>
+    
+</html>
