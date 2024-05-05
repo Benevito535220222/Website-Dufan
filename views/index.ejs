@@ -1,265 +1,276 @@
 
-	<canvas id="canvas"></canvas>
-	<img src="https://sorryaintsorry.files.wordpress.com/2016/10/tumblr_n3f4sxwm8e1smqfiko1_500.gif?w=778" alt="" width="1900" height="" style="height: 500px;">
- <section class="py-6 sm:py-12  text-gray-800">
-	<div class="container p-6 mx-auto space-y-8">
-		<div class="space-y-2 text-center">
-			<h2 class="text-3xl font-bold text-white">Jelajahi Dunia Fantasi </h2>
-			<p class="font-serif text-sm text-white">New Magic</p>
-		</div>
-		<div class="grid grid-cols-1 gap-x-4 gap-y-8 md:grid-cols-2 lg:grid-cols-4">
-			<article class="flex flex-col bg-gray-50">
-				<a rel="" href="#" aria-label="Te nulla oportere reprimique his dolorum">
-					<img alt="" class="object-cover w-full h-52 bg-gray-500" src="https://images.solopos.com/2023/11/Bianglala.jpg">
-				</a>
-				<div class="flex flex-col flex-1 p-6">
-					<a rel="" href="#" aria-label="Te nulla oportere reprimique his dolorum"></a>
-					<a rel="" href="#" class="text-xs tracking-wider uppercase hover:underline text-sky-600">Ferris Wheel</a>
-					<h3 class="flex-1 py-2 text-lg font-semibold leading-snug">Wahana Tenang nan Cantik</h3>
-					<div class="flex flex-wrap justify-between pt-3 space-x-2 text-xs text-gray-600">
-						<span>June 1, 2020</span>
-						<span>2.1K views</span>
-					</div>
-				</div>
-			</article>
-			<article class="flex flex-col bg-gray-50">
-				<a rel="" href="#" aria-label="Te nulla oportere reprimique his dolorum">
-					<img alt="" class="object-cover w-full h-52 bg-gray-500" src="https://awsimages.detik.net.id/community/media/visual/2022/09/05/cara-ke-dufan-naik-kereta-mrt-dan-busway-cek-di-sini_169.jpeg?w=1200">
-				</a>
-				<div class="flex flex-col flex-1 p-6">
-					<a rel="" href="#" aria-label="Te nulla oportere reprimique his dolorum"></a>
-					<a rel="" href="#" class="text-xs tracking-wider uppercase hover:underline text-sky-600">Halilintar</a>
-					<h3 class="flex-1 py-2 text-lg font-semibold leading-snug">Wahana Tegang dan Ceria</h3>
-					<div class="flex flex-wrap justify-between pt-3 space-x-2 text-xs text-gray-600">
-						<span>June 2, 2020</span>
-						<span>2.2K views</span>
-					</div>
-				</div>
-			</article>
-			<article class="flex flex-col bg-gray-50">
-				<a rel="" href="#" aria-label="Te nulla oportere reprimique his dolorum">
-					<img alt="" class="object-cover w-full h-52 bg-gray-500" src="https://www.blibli.com/friends-backend/wp-content/uploads/2021/10/Untitled-design-66.jpg">
-				</a>
-				<div class="flex flex-col flex-1 p-6">
-					<a rel="" href="#" aria-label="Te nulla oportere reprimique his dolorum"></a>
-					<a rel="" href="#" class="text-xs tracking-wider uppercase hover:underline text-sky-600">Baling-baling</a>
-					<h3 class="flex-1 py-2 text-lg font-semibold leading-snug">Wahana Muter-Muter</h3>
-					<div class="flex flex-wrap justify-between pt-3 space-x-2 text-xs text-gray-600">
-						<span>June 3, 2020</span>
-						<span>2.3K views</span>
-					</div>
-				</div>
-			</article>
-			<article class="flex flex-col bg-gray-50">
-				<a rel="" href="#" aria-label="Te nulla oportere reprimique his dolorum">
-					<img alt="" class="object-cover w-full h-52 bg-gray-500" src="https://ctzonedehasenbkl.com/wp-content/uploads/2019/11/IMG-20191109-WA0018.jpg">
-				</a>
-				<div class="flex flex-col flex-1 p-6">
-					<a rel="" href="#" aria-label="Te nulla oportere reprimique his dolorum"></a>
-					<a rel="" href="#" class="text-xs tracking-wider uppercase hover:underline text-sky-600">niagara</a>
-					<h3 class="flex-1 py-2 text-lg font-semibold leading-snug">Wahana Basah-Basah</h3>
-					<div class="flex flex-wrap justify-between pt-3 space-x-2 text-xs text-gray-600">
-						<span>June 4, 2020</span>
-						<span>2.4K views</span>
-					</div>
-				</div>
-			</article>
-		</div>
+<head>
+	<script src="https://js.stripe.com/v3/"></script>
+</head>
+<canvas id="canvas"></canvas>
+<img src="https://sorryaintsorry.files.wordpress.com/2016/10/tumblr_n3f4sxwm8e1smqfiko1_500.gif?w=778" alt="" width="1900" height="" style="height: 500px;">
+<section class="py-6 sm:py-12  text-gray-800">
+<div class="container p-6 mx-auto space-y-8">
+	<div class="space-y-2 text-center">
+		<h2 class="text-3xl font-bold text-white">Jelajahi Dunia Fantasi </h2>
+		<p class="font-serif text-sm text-white">New Magic</p>
 	</div>
+	<div class="grid grid-cols-1 gap-x-4 gap-y-8 md:grid-cols-2 lg:grid-cols-4">
+		<article class="flex flex-col bg-gray-50">
+			<a rel="" href="#" aria-label="Te nulla oportere reprimique his dolorum">
+				<img alt="" class="object-cover w-full h-52 bg-gray-500" src="https://images.solopos.com/2023/11/Bianglala.jpg">
+			</a>
+			<div class="flex flex-col flex-1 p-6">
+				<a rel="" href="#" aria-label="Te nulla oportere reprimique his dolorum"></a>
+				<a rel="" href="#" class="text-xs tracking-wider uppercase hover:underline text-sky-600">Ferris Wheel</a>
+				<h3 class="flex-1 py-2 text-lg font-semibold leading-snug">Wahana Tenang nan Cantik</h3>
+				<div class="flex flex-wrap justify-between pt-3 space-x-2 text-xs text-gray-600">
+					<span>June 1, 2020</span>
+					<span>2.1K views</span>
+				</div>
+			</div>
+		</article>
+		<article class="flex flex-col bg-gray-50">
+			<a rel="" href="#" aria-label="Te nulla oportere reprimique his dolorum">
+				<img alt="" class="object-cover w-full h-52 bg-gray-500" src="https://awsimages.detik.net.id/community/media/visual/2022/09/05/cara-ke-dufan-naik-kereta-mrt-dan-busway-cek-di-sini_169.jpeg?w=1200">
+			</a>
+			<div class="flex flex-col flex-1 p-6">
+				<a rel="" href="#" aria-label="Te nulla oportere reprimique his dolorum"></a>
+				<a rel="" href="#" class="text-xs tracking-wider uppercase hover:underline text-sky-600">Halilintar</a>
+				<h3 class="flex-1 py-2 text-lg font-semibold leading-snug">Wahana Tegang dan Ceria</h3>
+				<div class="flex flex-wrap justify-between pt-3 space-x-2 text-xs text-gray-600">
+					<span>June 2, 2020</span>
+					<span>2.2K views</span>
+				</div>
+			</div>
+		</article>
+		<article class="flex flex-col bg-gray-50">
+			<a rel="" href="#" aria-label="Te nulla oportere reprimique his dolorum">
+				<img alt="" class="object-cover w-full h-52 bg-gray-500" src="https://www.blibli.com/friends-backend/wp-content/uploads/2021/10/Untitled-design-66.jpg">
+			</a>
+			<div class="flex flex-col flex-1 p-6">
+				<a rel="" href="#" aria-label="Te nulla oportere reprimique his dolorum"></a>
+				<a rel="" href="#" class="text-xs tracking-wider uppercase hover:underline text-sky-600">Baling-baling</a>
+				<h3 class="flex-1 py-2 text-lg font-semibold leading-snug">Wahana Muter-Muter</h3>
+				<div class="flex flex-wrap justify-between pt-3 space-x-2 text-xs text-gray-600">
+					<span>June 3, 2020</span>
+					<span>2.3K views</span>
+				</div>
+			</div>
+		</article>
+		<article class="flex flex-col bg-gray-50">
+			<a rel="" href="#" aria-label="Te nulla oportere reprimique his dolorum">
+				<img alt="" class="object-cover w-full h-52 bg-gray-500" src="https://ctzonedehasenbkl.com/wp-content/uploads/2019/11/IMG-20191109-WA0018.jpg">
+			</a>
+			<div class="flex flex-col flex-1 p-6">
+				<a rel="" href="#" aria-label="Te nulla oportere reprimique his dolorum"></a>
+				<a rel="" href="#" class="text-xs tracking-wider uppercase hover:underline text-sky-600">niagara</a>
+				<h3 class="flex-1 py-2 text-lg font-semibold leading-snug">Wahana Basah-Basah</h3>
+				<div class="flex flex-wrap justify-between pt-3 space-x-2 text-xs text-gray-600">
+					<span>June 4, 2020</span>
+					<span>2.4K views</span>
+				</div>
+			</div>
+		</article>
+	</div>
+</div>
 </section>
 
 <section class=" text-gray-800">
-	<div class="container max-w-6xl p-6 mx-auto space-y-6 sm:space-y-12">
-		<a rel="" href="#" class="block max-w-sm gap-3 mx-auto sm:max-w-full group hover:no-underline focus:no-underline lg:grid lg:grid-cols-12 bg-gray-50">
-			<img src="/assets/img/dufan2.png" alt="" class="object-cover w-full h-64 rounded sm:h-96 lg:col-span-7 bg-gray-500">
-			<div class="p-6 space-y-2 lg:col-span-5">
-				<h3 class="text-2xl font-semibold sm:text-4xl group-hover:underline group-focus:underline">Inovasi Tanpa Batas</h3>
-				<span class="text-xs text-gray-600">Ancol</span>
-				<p>Dunia Fantasi atau yang lebih populer dengan sebutan Dufan, pertama kali dibuka untuk umum pada 29 Agustus 1985 dan merupakan theme park pertama yang dikembangkan oleh Perseroan dan telah memiliki sertifikat ISO 9001:2015 sejak Februari 2017.</p>
-			</div>
-		</a>
-	</div>
+<div class="container max-w-6xl p-6 mx-auto space-y-6 sm:space-y-12">
+	<a rel="" href="#" class="block max-w-sm gap-3 mx-auto sm:max-w-full group hover:no-underline focus:no-underline lg:grid lg:grid-cols-12 bg-gray-50">
+		<img src="/assets/img/dufan2.png" alt="" class="object-cover w-full h-64 rounded sm:h-96 lg:col-span-7 bg-gray-500">
+		<div class="p-6 space-y-2 lg:col-span-5">
+			<h3 class="text-2xl font-semibold sm:text-4xl group-hover:underline group-focus:underline">Inovasi Tanpa Batas</h3>
+			<span class="text-xs text-gray-600">Ancol</span>
+			<p>Dunia Fantasi atau yang lebih populer dengan sebutan Dufan, pertama kali dibuka untuk umum pada 29 Agustus 1985 dan merupakan theme park pertama yang dikembangkan oleh Perseroan dan telah memiliki sertifikat ISO 9001:2015 sejak Februari 2017.</p>
+		</div>
+	</a>
+</div>
 </section>
 
 <section class=" text-gray-800">
-	<div class="container flex flex-col-reverse mx-auto lg:flex-row">
-		<div class="flex flex-col px-6 py-8 space-y-6 rounded-sm sm:p-8 lg:p-12 lg:w-1/2 xl:w-2/5 bg-sky-600 text-gray-50">
-			<div class="flex space-x-2 sm:space-x-4">
-				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="flex-shrink-0 w-6 h-6">
-					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
-				</svg>
-				<div class="space-y-2">
-					<p class="text-lg font-medium leading-snug">Wahana Seru-seru</p>
-					<p class="leading-snug">Mola mola, Asthatirta, Antasena Tunnel, Mowgli's Jungle 4D Simulator</p>
-				</div>
-			</div>
-			<div class="flex space-x-2 sm:space-x-4">
-				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="flex-shrink-0 w-6 h-6">
-					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
-				</svg>
-				<div class="space-y-2">
-					<p class="text-lg font-medium leading-snug">Pengalaman Tak Terlupakan</p>
-					<p class="leading-snug">Pengalaman Seru tidak bisa dlupakan.</p>
-				</div>
-			</div>
-			<div class="flex space-x-2 sm:space-x-4">
-				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="flex-shrink-0 w-6 h-6">
-					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
-				</svg>
-				<div class="space-y-2">
-					<p class="text-lg font-medium leading-snug">Seru-Seru Dengan Keluarga</p>
-					<p class="leading-snug">Seru-seru seharian bareng sekeluarga!!!</p>
-				</div>
+<div class="container flex flex-col-reverse mx-auto lg:flex-row">
+	<div class="flex flex-col px-6 py-8 space-y-6 rounded-sm sm:p-8 lg:p-12 lg:w-1/2 xl:w-2/5 bg-sky-600 text-gray-50">
+		<div class="flex space-x-2 sm:space-x-4">
+			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="flex-shrink-0 w-6 h-6">
+				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
+			</svg>
+			<div class="space-y-2">
+				<p class="text-lg font-medium leading-snug">Wahana Seru-seru</p>
+				<p class="leading-snug">Mola mola, Asthatirta, Antasena Tunnel, Mowgli's Jungle 4D Simulator</p>
 			</div>
 		</div>
-		<div class="lg:w-1/2 xl:w-3/5 bg-gray-100">
-			<div class="flex items-center justify-center p-4 md:p-8 lg:p-12">
-				<img src="https://asset-a.grid.id/crop/0x0:0x0/x/photo/2023/05/24/dufan-bianglalajpg-20230524112059.jpg" alt="" class="rounded-lg shadow-lg bg-gray-500 aspect-video sm:min-h-96">
+		<div class="flex space-x-2 sm:space-x-4">
+			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="flex-shrink-0 w-6 h-6">
+				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
+			</svg>
+			<div class="space-y-2">
+				<p class="text-lg font-medium leading-snug">Pengalaman Tak Terlupakan</p>
+				<p class="leading-snug">Pengalaman Seru tidak bisa dlupakan.</p>
+			</div>
+		</div>
+		<div class="flex space-x-2 sm:space-x-4">
+			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="flex-shrink-0 w-6 h-6">
+				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
+			</svg>
+			<div class="space-y-2">
+				<p class="text-lg font-medium leading-snug">Seru-Seru Dengan Keluarga</p>
+				<p class="leading-snug">Seru-seru seharian bareng sekeluarga!!!</p>
 			</div>
 		</div>
 	</div>
+	<div class="lg:w-1/2 xl:w-3/5 bg-gray-100">
+		<div class="flex items-center justify-center p-4 md:p-8 lg:p-12">
+			<img src="https://asset-a.grid.id/crop/0x0:0x0/x/photo/2023/05/24/dufan-bianglalajpg-20230524112059.jpg" alt="" class="rounded-lg shadow-lg bg-gray-500 aspect-video sm:min-h-96">
+		</div>
+	</div>
+</div>
 </section>
 
 <section class=" text-gray-800">
-	<div class="container flex flex-col justify-center p-6 mx-auto sm:py-12 lg:py-24 lg:flex-row lg:justify-between">
-		<div class="flex items-center justify-center p-6 mt-8 lg:mt-0 h-72 sm:h-80 lg:h-96 xl:h-112 2xl:h-128">
-			<img src="https://kamuswisata.com/wp-content/uploads/2023/02/Dufan-Ancol-1-1024x536.jpg" alt="" class="object-contain h-72 sm:h-80 lg:h-96 xl:h-112 2xl:h-128 border-5 border-gray-500">
-		</div>
-		
-		<div class="flex flex-col justify-center p-6 text-center rounded-sm lg:max-w-md xl:max-w-lg lg:text-left">
-			<h1 class="text-5xl font-bold leading-none sm:text-6xl">Pengalaman
-				<span class="text-sky-600">Tak Terlupakan</span>
-			</h1>
-			<p class="mt-6 mb-8 text-lg sm:mb-12 text-white">Dufan memastikan 
-				<br class="hidden md:inline lg:hidden text-white">anda akan bersenang-senang
-			</p>
-			<div class="flex flex-col space-y-4 sm:items-center sm:justify-center sm:flex-row sm:space-y-0 sm:space-x-4 lg:justify-start">
-				<button class="px-12 py-3 text-lg font-semibold rounded bg-sky-600 text-gray-50" data-toggle="modal" data-target="#ticketPurchaseModal" style="margin-right: 0;">
-					Beli Tiket
-				</button>
-				<a rel="" href="#" class="px-12 py-3 text-lg font-semibold border rounded border-gray-800 text-white" style="margin-left: 20; width: 200px;">Jadwal</a>
-				
-			</div>
+<div class="container flex flex-col justify-center p-6 mx-auto sm:py-12 lg:py-24 lg:flex-row lg:justify-between">
+	<div class="flex items-center justify-center p-6 mt-8 lg:mt-0 h-72 sm:h-80 lg:h-96 xl:h-112 2xl:h-128">
+		<img src="https://kamuswisata.com/wp-content/uploads/2023/02/Dufan-Ancol-1-1024x536.jpg" alt="" class="object-contain h-72 sm:h-80 lg:h-96 xl:h-112 2xl:h-128 border-5 border-gray-500">
+	</div>
+	
+	<div class="flex flex-col justify-center p-6 text-center rounded-sm lg:max-w-md xl:max-w-lg lg:text-left">
+		<h1 class="text-5xl font-bold leading-none sm:text-6xl">Pengalaman
+			<span class="text-sky-600">Tak Terlupakan</span>
+		</h1>
+		<p class="mt-6 mb-8 text-lg sm:mb-12 text-white">Dufan memastikan 
+			<br class="hidden md:inline lg:hidden text-white">anda akan bersenang-senang
+		</p>
+		<div class="flex flex-col space-y-4 sm:items-center sm:justify-center sm:flex-row sm:space-y-0 sm:space-x-4 lg:justify-start">
+			<button class="px-12 py-3 text-lg font-semibold rounded bg-sky-600 text-gray-50" data-toggle="modal" data-target="#ticketPurchaseModal">
+				Beli Tiket
+			</button>
+			<a rel="" href="#" class="px-12 py-3 text-lg font-semibold border rounded border-gray-800 text-white ml-auto" style="width: 200px;">Jadwal</a>
+			
 		</div>
 	</div>
+</div>
 </section>
 
 <section class=" text-gray-800">
-	<div class="container flex flex-col justify-center p-6 mx-auto sm:py-12 lg:py-24 lg:flex-row lg:justify-between">
-		<div class="flex items-center justify-center p-6 mt-8 lg:mt-0 h-72 sm:h-80 lg:h-96 xl:h-112 2xl:h-128">
-			<img src="https://o-cdn-cas.sirclocdn.com/parenting/images/permainan-di-dufan.width-800.format-webp.webp" alt="" class="object-contain h-72 sm:h-80 lg:h-96 xl:h-112 2xl:h-128 border-5 border-gray-500">
-		</div>
-		<div class="flex flex-col justify-center p-6 text-center rounded-sm lg:max-w-md xl:max-w-lg lg:text-left">
-			<h1 class="text-5xl font-bold leading-none sm:text-6xl">Wahana
-				<span class="text-sky-600">Tak ada</span> Duanya
-			</h1>
-			<p class="mt-6 mb-8 text-lg sm:mb-12 text-white">Nikmati keindahan dan keseruan yang tidak terlupakan
-				<br class="hidden md:inline lg:hidden text-white">Rasakan sensasi tak terlupakan di setiap wahana
-			</p>
-			<div class="flex flex-col space-y-4 sm:items-center sm:justify-center sm:flex-row sm:space-y-0 sm:space-x-4 lg:justify-start">
-				<a rel="" href="/Dufan" class="px-12 py-3 text-lg font-semibold rounded bg-sky-600 text-gray-50">Beli Souvenir</a>
-				<a rel="" href="#" class="px-12 py-3 text-lg font-semibold border rounded border-gray-800 text-white">List Souvenir</a>
-			</div>
+<div class="container flex flex-col justify-center p-6 mx-auto sm:py-12 lg:py-24 lg:flex-row lg:justify-between">
+	<div class="flex items-center justify-center p-6 mt-8 lg:mt-0 h-72 sm:h-80 lg:h-96 xl:h-112 2xl:h-128">
+		<img src="https://o-cdn-cas.sirclocdn.com/parenting/images/permainan-di-dufan.width-800.format-webp.webp" alt="" class="object-contain h-72 sm:h-80 lg:h-96 xl:h-112 2xl:h-128 border-5 border-gray-500">
+	</div>
+	<div class="flex flex-col justify-center p-6 text-center rounded-sm lg:max-w-md xl:max-w-lg lg:text-left">
+		<h1 class="text-5xl font-bold leading-none sm:text-6xl">Wahana
+			<span class="text-sky-600">Tak ada</span> Duanya
+		</h1>
+		<p class="mt-6 mb-8 text-lg sm:mb-12 text-white">Nikmati keindahan dan keseruan yang tidak terlupakan
+			<br class="hidden md:inline lg:hidden text-white">Rasakan sensasi tak terlupakan di setiap wahana
+		</p>
+		<div class="flex flex-col space-y-4 sm:items-center sm:justify-center sm:flex-row sm:space-y-0 sm:space-x-4 lg:justify-start">
+			<a rel="" href="/Dufan" class="px-12 py-3 text-lg font-semibold rounded bg-sky-600 text-gray-50">Beli Souvenir</a>
+			<a rel="" href="#" class="px-12 py-3 text-lg font-semibold border rounded border-gray-800 text-white">List Souvenir</a>
 		</div>
 	</div>
+</div>
 </section>
 
 <div class="modal fade" id="ticketPurchaseModal" tabindex="-1" role="dialog" aria-labelledby="ticketPurchaseModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="ticketPurchaseModalLabel">Form Beli Tiket</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="ticketForm">
-                    <div class="form-group">
-                        <label for="ticketType">Jenis Tiket</label>
-                        <select class="form-control" id="ticketType" name="ticketType">
-                            <option value="Normal">Normal</option>
-                            <option value="Premium">Premium</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="date">Tanggal Kunjungan</label>
-                        <input type="date" class="form-control" id="date" name="visitDate" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="quantity">Jumlah</label>
-                        <input type="number" class="form-control" id="quantity" name="quantity" min="1" value="1">
-                    </div>
-                    <div class="form-group">
-                        <label for="totalPrice">Total Harga:</label>
-                        <input type="text" class="form-control" id="totalPrice" name="totalPrice" readonly>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="purchaseButton" onclick="submitTicketForm()" disabled>Beli Sekarang</button>
+<div class="modal-dialog" role="document">
+	<div class="modal-content">
+		<div class="modal-header">
+			<h5 class="modal-title" id="ticketPurchaseModalLabel">Form Beli Tiket</h5>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="modal-body">
+			<form id="ticketForm">
+				<div class="form-group">
+					<label for="ticketType">Jenis Tiket</label>
+					<select class="form-control" id="ticketType" name="ticketType">
+						<option value="Normal">Normal</option>
+						<option value="Premium">Premium</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label for="date">Tanggal Kunjungan</label>
+					<input type="date" class="form-control" id="date" name="visitDate" required>
+				</div>
+				<div class="form-group">
+					<label for="quantity">Jumlah</label>
+					<input type="number" class="form-control" id="quantity" name="quantity" min="1" value="1">
+				</div>
+				<div class="form-group">
+					<label for="totalPrice">Total Harga:</label>
+					<input type="text" class="form-control" id="totalPrice" name="totalPrice" readonly>
+				</div>
+			</form>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+			<button type="button" class="btn btn-primary" id="purchaseButton" onclick="submitTicketForm()" disabled>Beli Sekarang</button>
 
-            </div>
-        </div>
-    </div>
+		</div>
+	</div>
+</div>
 </div>
 
 
 <script>
-    document.getElementById('date').addEventListener('change', function() {
-        const dateValue = this.value;
-        const purchaseButton = document.getElementById('purchaseButton');
-        purchaseButton.disabled = !dateValue; // Nonaktifkan tombol jika tidak ada tanggal, aktifkan jika ada
-    });
+document.getElementById('date').addEventListener('change', function() {
+	const dateValue = this.value;
+	const purchaseButton = document.getElementById('purchaseButton');
+	purchaseButton.disabled = !dateValue; // Nonaktifkan tombol jika tidak ada tanggal, aktifkan jika ada
+});
 
-    // Menghitung total harga berdasarkan pilihan
-    document.getElementById('ticketType').addEventListener('change', updatePrice);
-    document.getElementById('quantity').addEventListener('input', updatePrice);
+// Menghitung total harga berdasarkan pilihan
+document.getElementById('date').addEventListener('change', updatePrice);
+document.getElementById('ticketType').addEventListener('change', updatePrice);
+document.getElementById('quantity').addEventListener('input', updatePrice);
 
-    function updatePrice() {
-        const type = document.getElementById('ticketType').value;
-        const quantity = parseInt(document.getElementById('quantity').value);
-        const pricePerTicket = type === 'Premium' ? 300000 : 150000;
-        document.getElementById('totalPrice').value = pricePerTicket * quantity;
-    }
+function updatePrice() {
+	const type = document.getElementById('ticketType').value;
+	const quantity = parseInt(document.getElementById('quantity').value);
+	const pricePerTicket = type === 'Premium' ? 300000 : 150000;
+	document.getElementById('totalPrice').value = pricePerTicket * quantity;
+}
+// Mengirim data form menggunakan AJAX
 
-    // Mengirim data form menggunakan AJAX
-    function submitTicketForm() {
-        const ticketType = document.getElementById('ticketType').value;
-        const visitDate = document.getElementById('date').value;
-        const quantity = document.getElementById('quantity').value;
-        const totalPrice = document.getElementById('totalPrice').value;
+function submitTicketForm() {
+const ticketType = document.getElementById('ticketType').value;
+const visitDate = document.getElementById('date').value;
+const quantity = document.getElementById('quantity').value;
+const totalPrice = document.getElementById('totalPrice').value;
+const stripeId = ticketType === 'Premium' ? "price_1PCv6CBB9x53gLGuXpDmDkuV" : "price_1PCv5KBB9x53gLGuisQSWb0A";
 
-        if (!visitDate) {
-            alert('Silakan pilih tanggal kunjungan terlebih dahulu.');
-            return;
-        }
+if (!visitDate) {
+	alert('Silakan pilih tanggal kunjungan terlebih dahulu.');
+	return;
+}
 
-        const data = {
-            ticketType,
-            visitDate,
-            quantity,
-            totalPrice
-        };
+const tickets = {
+	ticketType,
+	visitDate,
+	quantity,
+	totalPrice,
+	stripeId
+};
 
-        fetch('/api/tickets', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        })
-        .then(response => response.json())
-        .then(data => {
-            alert('Pembelian tiket berhasil!');
-            $('#ticketPurchaseModal').modal('hide');
-        })
-        .catch(error => {
-            alert('Terjadi kesalahan, silakan coba lagi.');
-            console.error('Error:', error);
-        });
-    }
+fetch('/create-checkout-session-ticket', {
+	method: 'POST',
+	headers: {
+		'Content-Type': 'application/json'
+	},
+	body: JSON.stringify(tickets),
+})
+.then(response => {
+	if (!response.ok) {
+		throw new Error('Network response was not ok');
+	}
+	return response.json();
+})
+.then(data => {
+	window.location.href = data.sessionUrl;
+})
+.catch(error => {
+	alert('Terjadi kesalahan, silakan coba lagi.');
+	console.error('Error:', error);
+});
+}
+
 </script>
 
 
