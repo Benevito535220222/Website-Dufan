@@ -104,12 +104,18 @@ app.get("/things_to_do",(req,res) =>{
  res.render("things_to_do.ejs",{title:`Thing To Do`,layout:`mainlayout.ejs`, user: user})
 });
 
-app.get('/admin', (req, res) => {
-if (req.session.user && req.session.user.isAdmin) {
-    res.render('admin.ejs',{layout:false}); // Render halaman dashboard admin
-} else {
-    res.status(403).send('Akses Ditolak'); // Pengguna bukan admin
-}
+app.get('/admin', async (req, res) => {
+  if (req.session.user && req.session.user.isAdmin) {
+    try {
+      const tickets = await Ticket.find().populate('user', 'email').exec();
+      res.render('admin.ejs', { tickets, layout: false,moment});
+    } catch (error) {
+      console.error('Error fetching tickets:', error);
+      res.status(500).send('Internal Server Error');
+    }
+  } else {
+    res.status(403).send('Akses Ditolak');
+  }
 });
 
 
@@ -625,9 +631,43 @@ app.get("/profiledit",(req,res) =>{
   }
 });
 
+app.post('/admin/approve-all-tickets', async (req, res) => {
+  if (!req.session.user || !req.session.user.isAdmin) {
+      return res.status(403).json({ message: 'Unauthorized' });
+  }
 
+  try {
+      await Ticket.updateMany({}, { status: 'Approved' });
+      res.json({ message: 'All tickets have been approved!' });
+  } catch (error) {
+      console.error('Failed to approve all tickets:', error);
+      res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+app.post('/admin/ticket-status', async (req, res) => {
+  if (!req.session.user || !req.session.user.isAdmin) {
+      return res.status(403).json({ success: false, message: 'Access denied' });
+  }
 
+  const { ticketId, status } = req.body;
 
+  try {
+      const result = await Ticket.findByIdAndUpdate(
+          ticketId,
+          { status: status },
+          { new: true }
+      );
+
+      if (result) {
+          res.json({ success: true, message: 'Ticket status updated successfully', updatedTicket: result });
+      } else {
+          res.json({ success: false, message: 'Ticket not found' });
+      }
+  } catch (error) {
+      console.error('Error updating ticket status:', error);
+      res.status(500).json({ success: false, message: 'Internal Server Error' });
+  }
+});
 
 app.listen(port,() => {
   console.log(`Webserver listening on port ${port}`)
