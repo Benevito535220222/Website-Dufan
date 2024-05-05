@@ -1,0 +1,103 @@
+<canvas id="canvas"></canvas>
+    <header class="bg-black py-5" style="background-image: url(https://falconscreativegroup.com/wp-content/uploads/2020/04/Theme-Park-Design-6.jpg); background-repeat: no-repeat; background-size: cover; background-attachment: fixed; margin-top: 0;background-position: center 380%;">
+        <div class="container px-4 px-lg-5 my-5">
+            <div class="text-center text-white">
+                <h1 class="display-4 fw-bolder">Dufan Shop</h1>
+                <p class="lead fw-normal text-white-100 mb-0">Souvenir Berkualitas Tinggi</p>
+            </div>
+        </div>
+    </header>
+    <form action="/dufan" method="GET">
+        <div class="search-container">
+            <input type="text" class="search-input" name="query" placeholder="Cari produk...">
+            <button type="submit" class="search-button">Cari</button>
+        </div>
+    </form>
+
+    <% if (products.length > 0) { %>
+    <section class="py-5">
+        <div class="container px-4 px-lg-5 mt-5">
+            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                <% products.forEach(product => { %>
+                    <div class="col mb-5">
+                        <div class="card h-100">
+                            <img class="card-img-top" src="<%= product.image %>" alt="Product Image" />
+                            <div class="card-body p-4">
+                                <div class="text-center">
+                                    <h5 class="fw-bolder"><%= product.name %></h5>
+                                    <div class="d-flex justify-content-center small text-warning mb-2">
+                                        <div class="bi-star-fill"></div>
+                                        <div class="bi-star-fill"></div>
+                                        <div class="bi-star-fill"></div>
+                                        <div class="bi-star-fill"></div>
+                                        <div class="bi-star-fill"></div>
+                                    </div>
+                                    <%= product.price %>
+                                </div>
+                            </div>
+                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                <div class="text-center">
+                                    <% if (user) { %>
+                                        <!-- Jika user login, tampilkan tombol normal -->
+                                        <a class="btn btn-outline-dark mt-auto add-to-cart" href="#" data-product-id="<%= product._id %>">Add to Cart</a>
+                                    <% } else { %>
+                                        <!-- Jika user tidak login, nonaktifkan tombol dan tambahkan alert -->
+                                        <button class="btn btn-outline-dark mt-auto" onclick="alert('Anda harus login untuk menambahkan produk ke keranjang.');">Add to Cart</button>
+                                    <% } %>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <% }); %>
+            </div>
+        </div>
+    </section>
+    <% } else { %>
+        <br><br><br><br>
+        <div class="container">
+            <div class="row">
+                <div class="col text-center">
+                    <p style="text-align: center; margin-left: -60px;">No products found.</p>
+                </div>
+            </div>
+        </div>
+    <% } %>
+
+    <script>
+        document.querySelectorAll('.add-to-cart').forEach(button => {
+            button.addEventListener('click', function(event) {
+                event.preventDefault();
+                const productId = this.dataset.productId;
+                addToCart(productId);
+            });
+        });
+
+        function addToCart(productId) {
+    fetch('/addToCart', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ productId: productId })
+    })
+    .then(response => {
+        if (response.ok) {
+            return response.json(); 
+        } else {
+            throw new Error('Failed to add product to cart.');
+        }
+    })
+    .then(data => {
+        if (data.alreadyExists) {
+            alert('Produk sudah ada dalam keranjang belanja.');
+        } else {
+            alert('Produk berhasil masuk dalam keranjang.');
+        }
+    })
+    .catch(error => {
+        console.error('Error adding product to cart:', error);
+        alert('Data Berhasil Masuk Dalam Keranjang.');
+    });
+}
+
+    </script>
