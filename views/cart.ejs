@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Stripe Checkout Sample</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="/script/checkout.js" defer></script>
+    <script src="/script/cart.js" defer></script>
+    <link rel="stylesheet" href="/css/style3.css">
+</head>
+
+<body>
+    <canvas id="canvas"></canvas>
+<% if (cart.length > 0) { %>
+    <section class="py-5">
+        <div class="container px-4 px-lg-5 mt-5">
+            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                <% cart.forEach(cartItem => { %>
+                    <div class="col mb-5">
+                        <div class="card h-100">
+                            <img class="card-img-top" src="<%= cartItem.image %>" alt="Product Image" />
+                            <div class="card-body p-4">
+                                <div class="text-center">
+                                    <h5 class="fw-bolder"><%= cartItem.name %></h5>
+                                    <div class="d-flex justify-content-center small text-warning mb-2">
+                                        <div class="bi-star-fill"></div>
+                                        <div class="bi-star-fill"></div>
+                                        <div class="bi-star-fill"></div>
+                                        <div class="bi-star-fill"></div>
+                                        <div class="bi-star-fill"></div>
+                                    </div>
+                                    Rp. <%= cartItem.price %> -,
+                                </div>
+                            </div>
+                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                <div class="text-center">
+                                    <a class="btn btn-outline-dark mt-auto remove-from-cart" href="#" data-product-id="<%= cartItem._id %>">Hapus Dari Cart</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <% }); %>
+            </div>
+        </div>
+    </section>
+    <div class="box">
+        <div class="cart-container">
+            <h1>Keranjang Anda,</h1>
+            <div class="cart-total">
+                <p>Total: <br><br><%= totalCartPrice.toFixed(3) %></p>
+            </div>
+            
+            <!-- Form to submit cart data to create checkout session -->
+            <form action="/create-checkout-session" method="POST">
+                <!-- Input to send cart data -->
+                <% cart.forEach(cartItem => { %>
+                    <!-- Encode cart item data including quantity -->
+                    <input type="hidden" name="cart[]" value='<%= JSON.stringify(cartItem) %>'>
+                <% }); %>
+                <!-- Submit button -->
+                <button type="submit" id="submit" style="border: 2px solid black; background-color: white; color: green; padding: 10px 20px; border-radius: 5px; cursor: pointer;"
+                onmouseover="this.style.backgroundColor='green'; this.style.color='white';"
+                onmouseout="this.style.backgroundColor='white'; this.style.color='green';">
+                Checkout
+            </button>
+            </form>
+            
+        </div>
+    </div>
+<% } else { %>
+    <br><br><br><br>
+    <div class="container">
+        <div class="row">
+            <div class="col text-center">
+                <p style="text-align: center; margin-left: -60px; color: white;">No products found.</p>
+            </div>
+        </div>
+    </div>
+<% } %>
+
+<script>
+    function incrementQuantity(productId) {
+        var quantityInput = document.getElementById("quantity-input-" + productId);
+        var currentValue = parseInt(quantityInput.value);
+        if (currentValue < 10) {
+            quantityInput.value = currentValue + 1;
+        }
+    }
+
+    function decrementQuantity(productId) {
+        var quantityInput = document.getElementById("quantity-input-" + productId);
+        var currentValue = parseInt(quantityInput.value);
+        if (currentValue > 1) {
+            quantityInput.value = currentValue - 1;
+        }
+    }
+</script>
+
+<script>
+    document.querySelectorAll('.remove-from-cart').forEach(button => {
+        button.addEventListener('click', function(event) {
+            event.preventDefault();
+            const productId = this.dataset.productId;
+            removeFromCart(productId);
+        });
+    });
+
+    function removeFromCart(productId) {
+        fetch('/removeFromCart', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ productId: productId })
+        })
+        .then(response => {
+            if (response.ok) {
+                alert('Item removed from cart successfully.');
+                window.location.reload();
+            } else {
+                console.error('Failed to remove item from cart.');
+            }
+        })
+        .catch(error => {
+            console.error('Error removing item from cart:', error);
+        });
+    }
+</script>
+</body>
+</html>
