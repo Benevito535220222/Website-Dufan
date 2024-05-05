@@ -22,8 +22,13 @@ const ticketSchema = new mongoose.Schema({
     totalPrice: {
         type: Number,
         required: true
+    },
+    status: {
+        type: String,
+        required: true,
+        default: 'In Progress'
     }
-});
+}, { timestamps: true });
 
 const Ticket = mongoose.model('ticket', ticketSchema);
 

@@ -19,6 +19,14 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: false 
     },
+    nomor: {
+        type: String,
+        default: '+62123456789' 
+    },
+    foto: {
+        type: String,
+        default: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRNVA9INRUBnqPAHYXY18JZ_kpeN3O_BLY0QUqSx1Tkw&s' 
+    },
     cart: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'product'
