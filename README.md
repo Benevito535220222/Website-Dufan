@@ -1,6 +1,6 @@
 KELOMPOK:
 
-Jason Weidardi 535220175
-Wilson Alfando 535220219
-Benevito Kevin 535220222
-Muhammad Raffi 535220259
+1.Jason Weidardi (535220175)
+2. Wilson Alfando (535220219)
+3. Benevito Kevin (535220222)
+4. Muhammad Raffi (535220259)
