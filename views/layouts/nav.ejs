@@ -1,0 +1,54 @@
+<header class="p-4 text-gray-800">
+    <div class="container flex justify-between h-16 mx-auto">
+        <a rel="" href="#" aria-label="Back to homepage" class="flex items-center p-2">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 32 32" class="w-8 h-8 text-sky-600">...</svg>
+        </a>
+        <ul class="items-stretch hidden space-x-3 lg:flex">
+            <li class="flex">
+                <a rel="" href="/" class="flex items-center px-4 -mb-1 border-b-2 border-transparent text-white">Parks & Tickets</a>
+            </li>
+            <li class="flex">
+                <a rel="" href="/test" class="flex items-center px-4 -mb-1 border-b-2 border-transparent text-white">Place to Stay</a>
+            </li>
+            <li class="flex">
+                <a rel="" href="/things_to_do" class="flex items-center px-4 -mb-1 border-b-2 border-transparent text-white">Thing to Do</a>
+            </li>
+            <li class="flex">
+                <a rel="" href="/dufan" class="flex items-center px-4 -mb-1 border-b-2 border-transparent text-white">Shop</a>
+            </li>
+            <% if (user) { %>
+                <li class="flex">
+                    <a rel="" href="/cart" class="flex items-center px-4 -mb-1 border-b-2 border-transparent text-white">Cart</a>
+                </li>
+            <% } %>
+            <% if (user && user.isAdmin) { %>
+                <li class="flex">
+                    <a rel="" href="/admin" class="flex items-center px-4 -mb-1 border-b-2 border-transparent text-white">Admin Dashboard</a>
+                </li>
+            <% } %>
+        </ul>
+        <% if(user) { %>
+            <div class="items-center flex-shrink-0 hidden lg:flex">
+                <p class="self-center px-8 py-3 text-white">Welcome, <%= user.username %></p>
+                <a href="/logout" class="self-center px-8 py-3 font-semibold rounded bg-sky-600 text-gray-50">Logout</a>
+                
+                <a href="/profil" class="self-center pl-8">
+                    <i class="fas fa-user-circle text-white text-xl"></i>
+                </a>
+                <a href="/inbox" class="self-center pl-8">
+                    <i class="fas fa-inbox text-white text-xl"></i>
+                </a>
+            </div>
+        <% } else { %>
+            <div class="items-center flex-shrink-0 hidden lg:flex">
+                <button ng-click="signIn()" class="self-center px-8 py-3 rounded text-white">Sign in</button>
+                <button ng-click="signUp()" class="self-center px-8 py-3 font-semibold rounded bg-sky-600 text-gray-50">Sign up</button>
+            </div>
+        <% } %>
+        <button class="p-4 lg:hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6 text-gray-800">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+        </button>
+     </div>
+</header>
