@@ -9,18 +9,84 @@
                 <li><a href="/admincart">Cart</a></li>
                 <li><a href="/adminmessage">Messages</a></li>
                 <li><a href="/adminuser">Users</a></li>
-                <li><a href="/logout" class="logout-button">Logout</a></li> <!-- Logout Button -->
+                <li><a href="/logout" class="logout-button">Logout</a></li>
             </ul>
         </div>
         <div class="main-content">
             <header>
-                <h1>Welcome Admin</h1>
+                <h1>Selamat Datang</h1>
             </header>
             <div class="content">
-                <h2>Analytics Overview</h2>
-                <p>This section can contain graphs and other summary data.</p>
+                <h2>Data Pemesanan Tiket</h2>
+                <div class="ticket-actions" style="text-align: right; margin-bottom: 10px;">
+                    <button onclick="approveAllTickets()" class="btn btn-primary">Approve All Tickets</button>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Email</th>
+                            <th>Ticket Type</th>
+                            <th>Waktu Pesan</th>
+                            <th>Quantity</th>
+                            <th>Total Price</th>
+                            <th>Waktu Kunjungan</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% tickets.forEach(ticket => { %>
+                            <tr>
+                                <td><%= ticket.user.email %></td>
+                                <td><%= ticket.ticketType %></td>
+                                <td><%= moment(ticket.createdAt).format('MMM DD, YYYY') %></td>
+                                <td><%= ticket.quantity %></td>
+                                <td><%= ticket.totalPrice %></td>
+                                <td><%= moment(ticket.visitDate).format('MMM DD, YYYY') %></td>
+                                <td><span class="badge <%= ticket.status === 'Approved' ? 'badge-success' : 'badge-info' %>"><%= ticket.status %></span></td>
+                                <td>
+                                    <button onclick="updateTicketStatus('<%= ticket._id %>', 'Approved')" class="btn btn-success btn-sm">Approve</button>
+                                    <button onclick="updateTicketStatus('<%= ticket._id %>', 'Rejected')" class="btn btn-danger btn-sm">Reject</button>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
+    <script>
+        function approveAllTickets() {
+            fetch('/admin/approve-all-tickets', {
+                method: 'POST'
+            })
+            .then(response => response.json())
+            .then(data => alert('All tickets have been approved!'))
+            .catch(error => console.error('Error:', error));
+        }
+
+        function updateTicketStatus(ticketId, status) {
+            fetch('/admin/ticket-status', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ ticketId: ticketId, status: status })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.success) {
+                    alert('Ticket status updated to ' + status);
+                    location.reload();
+                } else {
+                    alert('Failed to update ticket status');
+                }
+            })
+            .catch(error => {
+                console.error('Error updating ticket status:', error);
+                alert('Error updating ticket status');
+            });
+        }
+    </script>
 </body>
 </html>

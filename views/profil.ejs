@@ -348,7 +348,15 @@ a.list-group-item, .list-group-item-action {
         <tr>
           <td><%= ticket._id %></td>
           <td><%= ticket.visitDate.toISOString().split('T')[0] %></td>
-          <td><span class="badge badge-info m-0">In Progress</span></td>
+          <td>
+            <% if (ticket.status === 'Approved') { %>
+                <span class="badge badge-success m-0"><%= ticket.status %></span>
+            <% } else if (ticket.status === 'Rejected') { %>
+                <span class="badge badge-danger m-0"><%= ticket.status %></span>
+            <% } else { %>
+                <span class="badge badge-info m-0"><%= ticket.status %></span>
+            <% } %>
+        </td>        
           <td>Rp.<%= ticket.totalPrice %></td>
         </tr>
       <% }) %>
