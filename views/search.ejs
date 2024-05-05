@@ -1,0 +1,49 @@
+
+    <header class="bg-black py-5" style="background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAACoCAMAAABt9SM9AAAAA1BMVEUAlv+tY//LAAAAR0lEQVR4nO3BAQEAAACCIP+vbkhAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAO8GxYgAAb0jQ/cAAAAASUVORK5CYII=); background-repeat: no-repeat;   background-size: cover;
+        background-attachment: fixed;">
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="text-center text-black">
+                    <h1 class="display-4 fw-bolder">Dufan Shop</h1>
+                    <p class="lead fw-normal text-black-50 mb-0">Souvenir Berkualitas Tinggi</p>
+                </div>
+            </div>
+        </header>
+    <form action="/search" method="GET">
+        <input type="text" name="query" placeholder="Cari produk..." />
+        <button type="submit">Cari</button>
+    </form>
+    <% if (products.length > 0) { %>
+        <section class="py-5">
+            <div class="container px-4 px-lg-5 mt-5">
+                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                    <% products.forEach(product => { %>
+                        <div class="col mb-5">
+                            <div class="card h-100">
+                                <img class="card-img-top" src="<%= product.image %>" alt="Product Image" />
+                                <div class="card-body p-4">
+                                    <div class="text-center">
+                                        <h5 class="fw-bolder"><%= product.name %></h5>
+                                        <div class="d-flex justify-content-center small text-warning mb-2">
+                                            <div class="bi-star-fill"></div>
+                                            <div class="bi-star-fill"></div>
+                                            <div class="bi-star-fill"></div>
+                                            <div class="bi-star-fill"></div>
+                                            <div class="bi-star-fill"></div>
+                                        </div>
+                                        <%= product.price %>
+                                    </div>
+                                </div>
+                                <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                    <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to Cart</a></div>
+                                </div>
+                            </div>
+                        </div>
+                    <% }); %>
+                </div>
+            </div>
+        </section>
+    <% } else { %>
+        <p>No products found.</p>
+    <% } %>
+    
+
