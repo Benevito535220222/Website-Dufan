@@ -1,0 +1,121 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+.dashboard {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 200px;
+    background: #333;
+    color: white;
+    padding: 20px;
+}
+
+.sidebar h2 {
+    color: #fff;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar ul li a {
+    color: #bbb;
+    text-decoration: none;
+    display: block;
+    padding: 10px;
+    transition: color 0.3s ease;
+}
+
+.sidebar ul li a:hover,
+.sidebar ul li a.logout-button:hover {
+    color: #fff;
+}
+
+.main-content {
+    flex-grow: 1;
+    padding: 20px;
+    background: #f4f4f4;
+}
+
+.main-content header {
+    background: #eee;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.main-content h1 {
+    margin: 0;
+}
+
+.content {
+    background: white;
+    padding: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+.logout-button {
+    color: #f44336;
+    display: block;
+}
+
+.logout-button:hover {
+    color: #c33;
+}
+
+.edit-btn, .delete-btn {
+    padding: 8px 12px;  
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.3s ease;
+    text-align: center;
+}
+
+.edit-btn {
+    background-color: #4CAF50; /* Warna hijau */
+}
+
+.edit-btn:hover {
+    background-color: #45a049;
+}
+
+.delete-btn {
+    background-color: #f44336; /* Warna merah */
+    margin-left: 10px; /* Jarak antara tombol edit dan delete */
+}
+
+.delete-btn:hover {
+    background-color: #da190b;
+}
+
+/* Opsi tambahan untuk membuat tombol tampak disabled */
+.delete-btn.disabled, .edit-btn.disabled {
+    background-color: #ccc;
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+
+
