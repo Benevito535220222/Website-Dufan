@@ -1,4 +1,5 @@
 
+
 <head>
 	<script src="https://js.stripe.com/v3/"></script>
 </head>
@@ -10,64 +11,28 @@
 		<h2 class="text-3xl font-bold text-white">Jelajahi Dunia Fantasi </h2>
 		<p class="font-serif text-sm text-white">New Magic</p>
 	</div>
-	<div class="grid grid-cols-1 gap-x-4 gap-y-8 md:grid-cols-2 lg:grid-cols-4">
-		<article class="flex flex-col bg-gray-50">
-			<a rel="" href="#" aria-label="Te nulla oportere reprimique his dolorum">
-				<img alt="" class="object-cover w-full h-52 bg-gray-500" src="https://images.solopos.com/2023/11/Bianglala.jpg">
-			</a>
-			<div class="flex flex-col flex-1 p-6">
-				<a rel="" href="#" aria-label="Te nulla oportere reprimique his dolorum"></a>
-				<a rel="" href="#" class="text-xs tracking-wider uppercase hover:underline text-sky-600">Ferris Wheel</a>
-				<h3 class="flex-1 py-2 text-lg font-semibold leading-snug">Wahana Tenang nan Cantik</h3>
-				<div class="flex flex-wrap justify-between pt-3 space-x-2 text-xs text-gray-600">
-					<span>June 1, 2020</span>
-					<span>2.1K views</span>
-				</div>
-			</div>
-		</article>
-		<article class="flex flex-col bg-gray-50">
-			<a rel="" href="#" aria-label="Te nulla oportere reprimique his dolorum">
-				<img alt="" class="object-cover w-full h-52 bg-gray-500" src="https://awsimages.detik.net.id/community/media/visual/2022/09/05/cara-ke-dufan-naik-kereta-mrt-dan-busway-cek-di-sini_169.jpeg?w=1200">
-			</a>
-			<div class="flex flex-col flex-1 p-6">
-				<a rel="" href="#" aria-label="Te nulla oportere reprimique his dolorum"></a>
-				<a rel="" href="#" class="text-xs tracking-wider uppercase hover:underline text-sky-600">Halilintar</a>
-				<h3 class="flex-1 py-2 text-lg font-semibold leading-snug">Wahana Tegang dan Ceria</h3>
-				<div class="flex flex-wrap justify-between pt-3 space-x-2 text-xs text-gray-600">
-					<span>June 2, 2020</span>
-					<span>2.2K views</span>
-				</div>
-			</div>
-		</article>
-		<article class="flex flex-col bg-gray-50">
-			<a rel="" href="#" aria-label="Te nulla oportere reprimique his dolorum">
-				<img alt="" class="object-cover w-full h-52 bg-gray-500" src="https://www.blibli.com/friends-backend/wp-content/uploads/2021/10/Untitled-design-66.jpg">
-			</a>
-			<div class="flex flex-col flex-1 p-6">
-				<a rel="" href="#" aria-label="Te nulla oportere reprimique his dolorum"></a>
-				<a rel="" href="#" class="text-xs tracking-wider uppercase hover:underline text-sky-600">Baling-baling</a>
-				<h3 class="flex-1 py-2 text-lg font-semibold leading-snug">Wahana Muter-Muter</h3>
-				<div class="flex flex-wrap justify-between pt-3 space-x-2 text-xs text-gray-600">
-					<span>June 3, 2020</span>
-					<span>2.3K views</span>
-				</div>
-			</div>
-		</article>
-		<article class="flex flex-col bg-gray-50">
-			<a rel="" href="#" aria-label="Te nulla oportere reprimique his dolorum">
-				<img alt="" class="object-cover w-full h-52 bg-gray-500" src="https://ctzonedehasenbkl.com/wp-content/uploads/2019/11/IMG-20191109-WA0018.jpg">
-			</a>
-			<div class="flex flex-col flex-1 p-6">
-				<a rel="" href="#" aria-label="Te nulla oportere reprimique his dolorum"></a>
-				<a rel="" href="#" class="text-xs tracking-wider uppercase hover:underline text-sky-600">niagara</a>
-				<h3 class="flex-1 py-2 text-lg font-semibold leading-snug">Wahana Basah-Basah</h3>
-				<div class="flex flex-wrap justify-between pt-3 space-x-2 text-xs text-gray-600">
-					<span>June 4, 2020</span>
-					<span>2.4K views</span>
-				</div>
-			</div>
-		</article>
-	</div>
+	<% if (articles && articles.length) { %>
+		<div class="grid grid-cols-1 gap-x-4 gap-y-8 md:grid-cols-2 lg:grid-cols-4">
+			<% articles.forEach(article => { %>
+				<article class="flex flex-col bg-gray-50">
+					<a href="/comments/<%= article._id %>" aria-label="<%= article.title %>">
+						<img class="object-cover w-full h-52 bg-gray-500" src="<%= article.imageUrl %>">
+					</a>
+					<div class="flex flex-col flex-1 p-6">
+						<a href="/comments/<%= article._id %>" class="text-xs tracking-wider uppercase hover:underline text-sky-600"><%= article.title %></a>
+						<h3 class="flex-1 py-2 text-lg font-semibold leading-snug"><%= article.description %></h3>
+						<div class="flex flex-wrap justify-between pt-3 space-x-2 text-xs text-gray-600">
+							<span><%= moment(article.createdAt).format('MMM DD, YYYY') %></span>
+							<span>2</span>
+						</div>
+					</div>
+				</article>
+			<% }); %>
+		</div>
+	<% } else { %>
+		<p>No articles found.</p>
+	<% } %>
+	
 </div>
 </section>
 
@@ -140,6 +105,7 @@
 			<button class="px-12 py-3 text-lg font-semibold rounded bg-sky-600 text-gray-50" data-toggle="modal" data-target="#ticketPurchaseModal">
 				Beli Tiket
 			</button>
+			
 			<a rel="" href="#" class="px-12 py-3 text-lg font-semibold border rounded border-gray-800 text-white ml-auto" style="width: 200px;">Jadwal</a>
 			
 		</div>
@@ -274,5 +240,8 @@ fetch('/create-checkout-session-ticket', {
 </script>
 
 
+
+
 <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.2485617939426!2d106.8333191!3d-6.125289!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e6a1e1a80420c57%3A0x275b93253d2232e3!2sDufan%20Ancol!5e0!3m2!1sen!2sid!4v1668687276371!5m2!1sen!2sid" 
 width="2000" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+
