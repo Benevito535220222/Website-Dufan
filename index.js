@@ -3,9 +3,12 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 const express = require('express');
+const moment = require('moment');
 const bcrypt = require('bcrypt');
 const User = require('./model/config');
 const Product =require ('./model/produk');
+const Message=require('./model/message');
+const Ticket=require('./model/tiket');
 const app = express();
 const port = 3000;
 const bodyParser = require('body-parser');
@@ -90,6 +93,15 @@ app.get("/things_to_do",(req,res) =>{
    res.render("things_to_do.ejs",{title:`Thing To Do`,layout:`mainlayout.ejs`, user: user})
 });
 
+app.get('/admin', (req, res) => {
+  if (req.session.user && req.session.user.isAdmin) {
+      res.render('admin.ejs',{layout:false}); // Render halaman dashboard admin
+  } else {
+      res.status(403).send('Akses Ditolak'); // Pengguna bukan admin
+  }
+});
+
+
 
 app.get("/dufan",async (req,res) =>{
    const user = req.session.user;
@@ -131,59 +143,64 @@ app.get('/logout', (req, res) => {
 });
 
 app.post('/register', async (req, res) => {
-   try {
-     const existingUser = await User.findOne({ email: req.body.email });
-     if (existingUser) {
-       return res.send('<script>alert("Email sudah terdaftar!"); window.location.href = "/register";</script>');
-     }
-     const hashedPassword = await bcrypt.hash(req.body.password, 10);
-     const newUser = new User({
-       email: req.body.email,
-       password: hashedPassword
-     });
-     await newUser.save();
-     res.redirect('/login');
-   } catch (err) {
-     console.error('Error registering user:', err);
-     res.redirect('/register');
-   }
- });
-
- app.post('/login', async (req, res) => {
-   try {
-
-       const user = await User.findOne({ email: req.body.email });
-       
-       if (!user || !await bcrypt.compare(req.body.password, user.password)) {
-           return res.status(401).send('<script>alert("Email atau Password salah"); window.location.href = "/login";</script>');
-       }
-       
-
-       req.session.user = user; 
-
-       res.redirect('/');
-   } catch (err) {
-       console.error('Error:', err);
-       res.redirect('/login');
-   }
+  try {
+    const existingUser = await User.findOne({ $or: [{ email: req.body.email }, { username: req.body.username }] });
+    if (existingUser) {
+      return res.send('<script>alert("Username atau Email sudah terdaftar!"); window.location.href = "/register";</script>');
+    }
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    const newUser = new User({
+      username: req.body.username,
+      email: req.body.email,
+      password: hashedPassword
+    });
+    await newUser.save();
+    res.redirect('/login');
+  } catch (err) {
+    console.error('Error registering user:', err);
+    res.redirect('/register');
+  }
 });
 
 
-app.post('/addToCart', async (req, res) => {
-   try {
-       const productId = req.body.productId;
-       const userId = req.session.user._id;
-       const user = await User.findById(userId);
-       if (user.cart.includes(productId)) {
-           return res.json({ alreadyExists: true }); 
-       } else {
-           await User.findByIdAndUpdate(userId, { $addToSet: { cart: productId } });
-           return res.sendStatus(200); 
-       }
-   } catch (error) {
-       console.error('Error adding product to cart:', error);
-       res.status(500).send('Internal Server Error');
-   }
+ app.post('/login', async (req, res) => {
+  try {
+      const user = await User.findOne({ email: req.body.email });
+
+      if (!user || !await bcrypt.compare(req.body.password, user.password)) {
+          return res.status(401).send('<script>alert("Email atau Password salah"); window.location.href = "/login";</script>');
+      }
+
+      req.session.user = user; // Menyimpan informasi pengguna dalam sesi
+
+      if (user.isAdmin) {
+          res.redirect('/admin'); // Arahkan admin ke dashboard admin
+      } else {
+          res.redirect('/'); // Arahkan pengguna biasa ke halaman utama
+      }
+  } catch (err) {
+      console.error('Error:', err);
+      res.redirect('/login');
+  }
+});
+
+
+
+  app.post('/addToCart', async (req, res) => {
+    try {
+        const productId = req.body.productId;
+        const userId = req.session.user._id;
+        const user = await User.findById(userId);
+        if (user.cart.includes(productId)) {
+            return res.json({ alreadyExists: true }); 
+        } else {
+            await User.findByIdAndUpdate(userId, { $addToSet: { cart: productId } });
+            return res.sendStatus(200); 
+        }
+    } catch (error) {
+        console.error('Error adding product to cart:', error);
+        res.status(500).send('Internal Server Error');
+    }
 });
 
 app.post('/removeFromCart', async (req, res) => {
@@ -274,6 +291,225 @@ app.post('/create-checkout-session', async (req, res) => {
     res.sendStatus(200);
   });
 
+  app.get('/adminuser', async (req, res) => {
+    try {
+        const users = await User.find({});
+        res.render('adminuser.ejs',{users,layout:false,moment}); 
+    } catch (error) {
+        console.error('Error fetching users:', error);
+        res.status(500).send('Error fetching users');
+    }
+});
+
+// Route untuk menghapus pengguna
+app.delete('/user/:id', async (req, res) => {
+  try {
+      const user = await User.findById(req.params.id);
+      if (!user) {
+          return res.status(404).send('User not found');
+      }
+
+      // Cek jika pengguna adalah admin dan mencegah penghapusan
+      if (user.isAdmin) {
+          return res.status(403).send('Cannot delete an admin user');
+      }
+
+      await User.findByIdAndDelete(req.params.id);
+      res.send('User deleted successfully');
+  } catch (error) {
+      console.error('Error deleting user:', error);
+      res.status(500).send('Error deleting user');
+  }
+});
+
+app.get('/admincart', async (req, res) => {
+  try {
+      const products = await Product.find({}); // Mengambil semua produk
+      res.render('admincart.ejs', { products ,layout:false}); // Mengirim produk ke template EJS
+  } catch (error) {
+      console.error('Failed to fetch products:', error);
+      res.status(500).send('Error fetching products');
+  }
+});
+
+app.post('/sales', async (req, res) => {
+  try {
+      const { name, image, price, stripeId } = req.body;
+      const newProduct = new Product({ name, image, price, stripeId });
+      await newProduct.save();
+      res.redirect('/admincart'); // Redirect kembali ke halaman sales setelah penambahan
+  } catch (error) {
+      console.error('Failed to add product:', error);
+      res.status(500).send('Error adding product');
+  }
+});
+
+// Handle POST request for product updates
+// Server.js
+app.post('/sales/edit/:productId', async (req, res) => {
+  try {
+      const { name, image, price, stripeId } = req.body;
+      await Product.findByIdAndUpdate(req.params.productId, {
+          name: name,
+          image: image,
+          price: price,
+          stripeId: stripeId
+      });
+      res.json({ message: 'Product updated successfully' }); // Mengirim respons sukses
+  } catch (error) {
+      console.error('Failed to update product:', error);
+      res.status(500).send('Error updating product');
+  }
+});
+
+
+// Handle DELETE request for products
+app.delete('/sales/:productId', async (req, res) => {
+  try {
+      await Product.findByIdAndDelete(req.params.productId);
+      res.json({ message: 'Product deleted successfully' });
+  } catch (error) {
+      console.error('Failed to delete product:', error);
+      res.status(500).json({ message: 'Error deleting product' });
+  }
+});
+
+app.get("/adminmessage", async (req, res) => {
+  if (!req.session.user || !req.session.user.isAdmin) {
+    return res.status(403).send("Unauthorized access.");
+  }
+
+  try {
+    const messages = await Message.find({ sender: req.session.user._id }).populate('recipients');
+    res.render("adminmessage.ejs", { messages, layout: false });
+  } catch (error) {
+    console.error("Error retrieving messages:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+
+app.post('/send-message', async (req, res) => {
+  if (!req.session.user || !req.session.user.isAdmin) {
+      return res.status(403).send('Unauthorized');
+  }
+
+  try {
+      const { subject, body } = req.body;
+      const allUsers = await User.find({ _id: { $ne: req.session.user._id }}); // Ambil semua user kecuali admin
+
+      const message = new Message({
+          subject,
+          body,
+          sender: req.session.user._id,
+          recipients: allUsers.map(user => user._id)
+      });
+
+      await message.save();
+      res.redirect('/adminmessage')
+  } catch (error) {
+      console.error('Error sending message:', error);
+      res.status(500).send('Internal Server Error');
+  }
+});
+
+app.get('/inbox', async (req, res) => {
+  const user = req.session.user;
+  if (!req.session.user) {
+      return res.redirect('/login');
+  }
+
+  try {
+      const messages = await Message.find({ recipients: req.session.user._id })
+          .populate('sender', 'email');
+      res.render('inbox.ejs', { messages, layout:false,title:'Inbox',user:user});
+  } catch (error) {
+      console.error('Error retrieving messages:', error);
+      res.status(500).send('Internal Server Error: ' + error.message);  // Providing more detail about the error
+  }
+});
+
+app.delete('/delete-message/:id', async (req, res) => {
+  if (!req.session.user || !req.session.user.isAdmin) {
+      return res.status(403).send('Unauthorized');
+  }
+
+  try {
+      await Message.findByIdAndDelete(req.params.id);
+      res.send({ status: 'success', message: 'Pesan berhasil dihapus.' });
+  } catch (error) {
+      console.error('Error deleting message:', error);
+      res.status(500).send({ status: 'error', message: 'Internal Server Error' });
+  }
+});
+
+app.get('/profil', async (req, res) => {
+  const user = req.session.user;
+  if (!user) {
+      return res.redirect('/login'); // Redirect to login if the user is not logged in
+  }
+
+  const sortOption = req.query.sort || 'date-desc'; // Default sorting
+  let sortParams = {};
+
+  switch(sortOption) {
+      case 'date-desc':
+          sortParams = { visitDate: -1 };
+          break;
+      case 'date-asc':
+          sortParams = { visitDate: 1 };
+          break;
+      case 'price-desc':
+          sortParams = { totalPrice: -1 };
+          break;
+      case 'price-asc':
+          sortParams = { totalPrice: 1 };
+          break;
+  }
+
+  try {
+      const tickets = await Ticket.find({ user: user._id })
+                                 .sort(sortParams);
+      res.render('profil.ejs', { tickets, layout: false, title: 'Profil', moment, user: user });
+  } catch (error) {
+      console.error('Error fetching user tickets:', error);
+      res.status(500).send('Internal Server Error');
+  }
+});
+
+
+app.post('/api/tickets', async (req, res) => {
+  try {
+      // Pastikan user sudah login
+      if (!req.session.user) {
+          return res.status(401).json({ message: 'User not authenticated' });
+      }
+
+      const { ticketType, visitDate, quantity } = req.body;
+      const pricePerTicket = ticketType === 'Premium' ? 300000 : 150000;
+      const totalPrice = pricePerTicket * parseInt(quantity);
+
+      // Membuat dokumen tiket baru
+      const newTicket = new Ticket({
+          ticketType,
+          visitDate,
+          quantity,
+          totalPrice,
+          user: req.session.user._id  // Simpan referensi ke user yang login
+      });
+
+      // Simpan tiket ke database
+      await newTicket.save();
+
+      res.status(200).json({ message: 'Ticket successfully purchased', ticketId: newTicket._id });
+  } catch (error) {
+      console.error('Failed to process ticket purchase:', error);
+      res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+
+
 app.listen(port,() => {
     console.log(`Webserver listening on port ${port}`)
  });
+
